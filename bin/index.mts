@@ -56,7 +56,7 @@ const extraESBuildConfig = new Promise<(config: esbuild.BuildOptions) => esbuild
 
 const updateMessage = `Update available ${chalk.dim("{currentVersion}")}${chalk.reset(
   " → ",
-)}${chalk.green("{latestVersion}")} \nRun ${chalk.cyan("pnpm i -D replugged")} to update`;
+)}${chalk.green("{latestVersion}")} \nRun ${chalk.cyan("pnpm i -D recelled")} to update`;
 
 const notifier = updateNotifier({
   pkg: packageJson,
@@ -84,7 +84,7 @@ let connectingPromise: Promise<WebSocket | undefined> | undefined;
  * Try to connect to RPC on a specific port and handle the READY event as well as errors and close events
  */
 function tryPort(port: number): Promise<WebSocket | undefined> {
-  ws = new WebSocket(`ws://127.0.0.1:${port}/?v=1&client_id=REPLUGGED-${random()}`);
+  ws = new WebSocket(`ws://127.0.0.1:${port}/?v=1&client_id=RECELLED-${random()}`);
   return new Promise((resolve, reject) => {
     let didFinish = false;
     ws?.on("message", (data) => {
@@ -319,14 +319,14 @@ async function buildPlugin({ watch, noInstall, production, noReload, addon }: Ar
   const globalModules: esbuild.Plugin = {
     name: "globalModules",
     setup: (build) => {
-      build.onResolve({ filter: /^replugged(\/\w+)?$/ }, (args) => {
+      build.onResolve({ filter: /^recelled(\/\w+)?$/ }, (args) => {
         if (args.kind !== "import-statement") return undefined;
 
         if (args.path.includes("dist")) {
           return {
             errors: [
               {
-                text: `Unsupported import from dist: ${args.path}\nImport from either the top level of this module ("replugged") or a top-level subpath (e.g. "replugged/common") instead.`,
+                text: `Unsupported import from dist: ${args.path}\nImport from either the top level of this module ("recelled") or a top-level subpath (e.g. "recelled/common") instead.`,
               },
             ],
           };
@@ -334,7 +334,7 @@ async function buildPlugin({ watch, noInstall, production, noReload, addon }: Ar
 
         return {
           path: args.path,
-          namespace: "replugged",
+          namespace: "recelled",
         };
       });
 
@@ -342,8 +342,8 @@ async function buildPlugin({ watch, noInstall, production, noReload, addon }: Ar
         if (args.kind !== "import-statement") return undefined;
 
         return {
-          path: "replugged/common/React",
-          namespace: "replugged",
+          path: "recelled/common/React",
+          namespace: "recelled",
         };
       });
 
@@ -531,7 +531,7 @@ async function buildTheme({ watch, noInstall, production, noReload, addon }: Arg
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { argv } = yargs(hideBin(process.argv))
-  .scriptName("replugged")
+  .scriptName("recelled")
   .usage("$0 <cmd> [args]")
   .command(
     "build <addon>",
