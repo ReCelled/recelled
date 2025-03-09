@@ -35,13 +35,13 @@ export const isDiscordInstalled = async (appDir: string, silent?: boolean): Prom
 };
 
 // If app.orig.asar but no app.asar, move app.orig.asar to app.asar
-// Fixes a case where app.asar was deleted (unplugged) but app.orig.asar couldn't be moved back
+// Fixes a case where app.asar was deleted (uncelled) but app.orig.asar couldn't be moved back
 // Fixes incase using old version of recelled
 export const correctMissingMainAsar = async (appDir: string): Promise<boolean> => {
   try {
     await stat(join(appDir, "..", "app.orig.asar"));
     console.warn(
-      `${AnsiEscapes.YELLOW}Your Discord installation was not properly unplugged, attempting to fix...${AnsiEscapes.RESET}`,
+      `${AnsiEscapes.YELLOW}Your Discord installation was not properly uncelled, attempting to fix...${AnsiEscapes.RESET}`,
     );
     try {
       await stat(join(appDir, "..", "app.asar"));
@@ -59,7 +59,7 @@ export const correctMissingMainAsar = async (appDir: string): Promise<boolean> =
       );
     } catch {
       console.error(
-        `${AnsiEscapes.RED}Failed to fix your Discord installation, please try unplugging and plugging again.${AnsiEscapes.RESET}`,
+        `${AnsiEscapes.RED}Failed to fix your Discord installation, please try uncelling and incelling again.${AnsiEscapes.RESET}`,
         "\n",
       );
       console.error("If the error persists, please reinstall Discord and try again.");
@@ -70,7 +70,7 @@ export const correctMissingMainAsar = async (appDir: string): Promise<boolean> =
   return true;
 };
 
-export const isPlugged = async (appDir: string): Promise<boolean> => {
+export const isCelled = async (appDir: string): Promise<boolean> => {
   try {
     uncache(appDir);
     await statFile(appDir, "app.orig");
@@ -89,7 +89,7 @@ export const inject = async (
   if (!(await correctMissingMainAsar(appDir))) return false;
   if (!(await isDiscordInstalled(appDir))) return false;
 
-  if (await isPlugged(appDir)) {
+  if (await isCelled(appDir)) {
     /*
      * @todo: verify if there is nothing in discord_desktop_core as well
      * @todo: prompt to automatically uninject and continue
@@ -101,9 +101,9 @@ export const inject = async (
     console.error(
       `If you already have ReCelled installed and want to replace it, use ${
         AnsiEscapes.GREEN
-      }${getCommand({ action: "replug", prod, platform })}${
+      }${getCommand({ action: "recell", prod, platform })}${
         AnsiEscapes.RESET
-      } to unplug and plug again.`,
+      } to uncell and incell again.`,
     );
     return false;
   }
@@ -154,7 +154,7 @@ export const inject = async (
     }
   } catch {
     console.error(
-      `${AnsiEscapes.RED}Failed to rename app.asar while plugging. If Discord is open, make sure it is closed.${AnsiEscapes.RESET}`,
+      `${AnsiEscapes.RED}Failed to rename app.asar while incelling. If Discord is open, make sure it is closed.${AnsiEscapes.RESET}`,
     );
     process.exit(exitCode);
   }
@@ -204,9 +204,9 @@ export const uninject = async (
   )
     return false;
 
-  if (!(await isPlugged(appDir))) {
+  if (!(await isCelled(appDir))) {
     console.error(
-      `${AnsiEscapes.BOLD}${AnsiEscapes.RED}There is nothing to unplug. You are already running Discord without mods.${AnsiEscapes.RESET}`,
+      `${AnsiEscapes.BOLD}${AnsiEscapes.RED}There is nothing to uncell. You are already running Discord without mods.${AnsiEscapes.RESET}`,
     );
     return false;
   }
@@ -229,7 +229,7 @@ export const uninject = async (
 
 export const smartInject = async (
   cmd: "uninject" | "inject",
-  replug: boolean,
+  recell: boolean,
   platformModule: PlatformModule,
   platform: DiscordPlatform,
   production: boolean,
@@ -243,7 +243,7 @@ export const smartInject = async (
       : PlatformNames[platform].replace(" ", "");
   if (!noRelaunch) {
     try {
-      if ((replug && cmd === "uninject") || !replug) {
+      if ((recell && cmd === "uninject") || !recell) {
         processInfo = getProcessInfoByName(processName)!;
         await Promise.all(processInfo.map((info) => killProcessByPID(info.pid)));
       }
@@ -256,7 +256,7 @@ export const smartInject = async (
       : await inject(platformModule, platform, production);
 
   if (!noRelaunch) {
-    if (((replug && cmd !== "uninject") || !replug) && processInfo) {
+    if (((recell && cmd !== "uninject") || !recell) && processInfo) {
       const appDir = await platformModule.getAppDir(platform);
       switch (process.platform) {
         case "win32":

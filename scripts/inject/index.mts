@@ -28,7 +28,7 @@ export const entryPoint = ctx.getOptionalArg(/--entryPoint/);
 
 if (!(process.platform in platformModules)) {
   console.error(
-    `${AnsiEscapes.BOLD}${AnsiEscapes.RED}Failed to plug ReCelled :(${AnsiEscapes.RESET}`,
+    `${AnsiEscapes.BOLD}${AnsiEscapes.RED}Failed to incell ReCelled :(${AnsiEscapes.RESET}`,
     "\n",
   );
   console.error("It seems like your platform is not supported yet.", "\n");
@@ -49,7 +49,7 @@ const checkInstalled = (appDir: string): boolean => existsSync(join(appDir, ".."
 
 let platform: DiscordPlatform | undefined;
 
-const run = async (cmd = ctx.getPositionalArg(2), replug = false): Promise<void> => {
+const run = async (cmd = ctx.getPositionalArg(2), recell = false): Promise<void> => {
   if (!platform) {
     const platformArg = getPositionalArg(ctx.argv, 3, false)?.toLowerCase();
 
@@ -98,7 +98,7 @@ const run = async (cmd = ctx.getPositionalArg(2), replug = false): Promise<void>
 
   if (cmd === "inject") {
     try {
-      result = await smartInject(cmd, replug, platformModule, platform, prod, noRelaunch);
+      result = await smartInject(cmd, recell, platformModule, platform, prod, noRelaunch);
     } catch (e) {
       console.error(
         `${AnsiEscapes.RED}An error occurred while trying to inject into Discord!${AnsiEscapes.RESET}`,
@@ -110,7 +110,7 @@ const run = async (cmd = ctx.getPositionalArg(2), replug = false): Promise<void>
       // @todo: prompt to (re)start automatically
       console.log(
         `${AnsiEscapes.BOLD}${AnsiEscapes.GREEN}ReCelled has been successfully ${
-          replug ? "replugged" : "plugged"
+          recell ? "recelled" : "incelled"
         } :D${AnsiEscapes.RESET}`,
         "\n",
       );
@@ -120,16 +120,16 @@ const run = async (cmd = ctx.getPositionalArg(2), replug = false): Promise<void>
             ? `You now have to completely close the Discord client, from the system tray or through the task manager.\n`
             : "Your Discord client has been restarted automatically.\n"
         }
-To plug into a different platform, use the following syntax: ${AnsiEscapes.BOLD}${
+To incell into a different platform, use the following syntax: ${AnsiEscapes.BOLD}${
           AnsiEscapes.GREEN
-        }${getCommand({ action: replug ? "replug" : "plug", prod })}${AnsiEscapes.RESET}`,
+        }${getCommand({ action: recell ? "recell" : "incel", prod })}${AnsiEscapes.RESET}`,
       );
     } else {
       process.exit(exitCode);
     }
   } else if (cmd === "uninject") {
     try {
-      result = await smartInject(cmd, replug, platformModule, platform, prod, noRelaunch);
+      result = await smartInject(cmd, recell, platformModule, platform, prod, noRelaunch);
     } catch (e) {
       console.error(
         `${AnsiEscapes.RED}An error occurred while trying to uninject from Discord!${AnsiEscapes.RESET}`,
@@ -138,12 +138,12 @@ To plug into a different platform, use the following syntax: ${AnsiEscapes.BOLD}
       process.exit(exitCode);
     }
     if (result) {
-      if (replug) {
-        console.log("Unplug successful, continuing to replug...", "\n");
+      if (recell) {
+        console.log("Uncell successful, continuing to recell...", "\n");
       } else {
         // @todo: prompt to (re)start automatically
         console.log(
-          `${AnsiEscapes.BOLD}${AnsiEscapes.GREEN}ReCelled has been successfully unplugged${AnsiEscapes.RESET}`,
+          `${AnsiEscapes.BOLD}${AnsiEscapes.GREEN}ReCelled has been successfully uncelled${AnsiEscapes.RESET}`,
           "\n",
         );
         console.log(
@@ -152,9 +152,9 @@ To plug into a different platform, use the following syntax: ${AnsiEscapes.BOLD}
               ? `You now have to completely close the Discord client, from the system tray or through the task manager.\n`
               : "Your Discord client has been restarted automatically.\n"
           }
-To unplug from a different platform, use the following syntax: ${AnsiEscapes.BOLD}${
+To uncell from a different platform, use the following syntax: ${AnsiEscapes.BOLD}${
             AnsiEscapes.GREEN
-          }${getCommand({ action: "unplug", prod })}${AnsiEscapes.RESET}`,
+          }${getCommand({ action: "uncell", prod })}${AnsiEscapes.RESET}`,
         );
       }
     }

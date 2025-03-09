@@ -22,7 +22,7 @@ const installDeps = (): void => {
 // Don't clone in System32
 if (dirname.toLowerCase().replace(/\\/g, "/").includes("/windows/system32")) {
   console.log(
-    `${AnsiEscapes.BOLD}${AnsiEscapes.RED}Failed to plug ReCelled :(${AnsiEscapes.RESET}`,
+    `${AnsiEscapes.BOLD}${AnsiEscapes.RED}Failed to incell ReCelled :(${AnsiEscapes.RESET}`,
     "\n",
   );
   console.log("ReCelled detected that you are trying to install ReCelled in the System32 folder.");
@@ -40,7 +40,7 @@ if (dirname.toLowerCase().replace(/\\/g, "/").includes("/windows/system32")) {
 // Verify if we're on node 10.x
 if (!(await import("fs")).promises) {
   console.log(
-    `${AnsiEscapes.BOLD}${AnsiEscapes.RED}Failed to plug ReCelled :(${AnsiEscapes.RESET}`,
+    `${AnsiEscapes.BOLD}${AnsiEscapes.RED}Failed to incell ReCelled :(${AnsiEscapes.RESET}`,
     "\n",
   );
   console.log("ReCelled detected you're running an outdated version of NodeJS.");
