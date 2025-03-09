@@ -41,3 +41,5 @@ For the long story, [click here](https://github.com/replugged-org/replugged/tree
    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Vendicated/Vencord,BetterDiscord/BetterDiscord,replugged-org/replugged,recelled/recelled&type=Timeline" />
  </picture>
 </a>
+
+<!-- use me senpai>
