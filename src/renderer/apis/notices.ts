@@ -1,19 +1,19 @@
-import type { RepluggedAnnouncement } from "../../types";
+import type { ReCelledAnnouncement } from "../../types";
 
 class NoticesAPI extends EventTarget {
-  private announcements: RepluggedAnnouncement[] = [];
+  private announcements: ReCelledAnnouncement[] = [];
 
-  public sendAnnouncement(props: RepluggedAnnouncement): () => void {
+  public sendAnnouncement(props: ReCelledAnnouncement): () => void {
     props._dismissed = false;
     this.announcements.push(props);
-    this.dispatchEvent(new CustomEvent("rpAnnouncementUpdate"));
+    this.dispatchEvent(new CustomEvent("rcAnnouncementUpdate"));
     return () => {
       props._dismissed = true;
-      this.dispatchEvent(new CustomEvent("rpAnnouncementUpdate"));
+      this.dispatchEvent(new CustomEvent("rcAnnouncementUpdate"));
     };
   }
 
-  public getAnnouncement(): RepluggedAnnouncement | undefined {
+  public getAnnouncement(): ReCelledAnnouncement | undefined {
     while (this.announcements[0]?._dismissed) {
       this.announcements.shift();
     }
@@ -22,7 +22,7 @@ class NoticesAPI extends EventTarget {
 
   public closeActiveAnnouncement(): void {
     this.announcements.shift();
-    this.dispatchEvent(new CustomEvent("rpAnnouncementUpdate"));
+    this.dispatchEvent(new CustomEvent("rcAnnouncementUpdate"));
   }
 }
 
