@@ -1,49 +1,45 @@
-# Replugged
+# ReCelled
 
-[Website](https://replugged.dev) | [Discord](https://discord.gg/HnYFUhv4x4) |
-[Developer Guide](https://guide.replugged.dev) | [API Docs](https://docs.replugged.dev)  
-(API docs will be replaced with the guide in the future)
+The worst fork of replugged
+
 
 ## Installation
 
-Download Replugged from https://replugged.dev/download
+Please see [the guide](https://github.com/ReCelled/recelled/blob/main/INSTALLATION.md) for information on
+how to install ReCelled. Thanks for using ReCelled!
 
-## Contributing to Replugged
+## Contributing to ReCelled
 
-Please see [the guide](https://guide.replugged.dev/docs/contributing/replugged) for information on
-how to contribute to the Replugged. Thanks for your help!
+Please see [the guide](https://github.com/ReCelled/recelled/blob/main/CONTRIBUTING.md) for information on
+how to contribute to the ReCelled. Thanks for your help!
 
-## FAQ
+## Addons
+Installing addons like plugins and themes is very humane.
+ReCelled Works out of box with replugged plugins, just install them the same way as on replugged.
+
+## Can I use BetterDiscord plugins?
+
+Yes'nt. You can kindof but its truly unsupported.
+You just Inject better discord after recelled hoping it works! (Works mostly)
+
+Let me remind you again, this is not supported by better discord or recelled no might have unexpected results.
+
 
 ### Is this against the ToS?
 
-Long story short... **yes**. Replugged is against the Discord Terms of Service — but, you should
-keep reading:
+Long story short... **yes**.
 
-As of right now, **Discord is not going out of their way to detect client mods or ban client mod
-users**. On top of that, Replugged does not make any manual HTTP requests unlike certain client mods
-/ plugins, so your client's user agent is the same as a legitimate client. Meaning, Discord doesn't
-detect a client mod like Replugged. They can go out of their way to start detecting it, but they
-don't.
+For the long story, [click here](https://github.com/recelled/recelled/tree/main?tab=readme-ov-file#is-this-against-the-tos)
 
-Hypothetically speaking - even if they somehow did detect Replugged, users are very unlikely to be
-banned on sight. It doesn't make sense for Discord to start banning a substantial part of it's
-userbase (client mod users) without any kind of warning. Not to mention it is mandatory for
-Replugged plugins to be fully API-compliant and ethical, implying Replugged users can't be banned
-for indirect ToS violations (e.g. selfbotting).
 
-### Can I use Powercord plugins or themes?
+## Popular Client Mod Star History
 
-No. Replugged was originally based on Powercord, but it is not anymore. Due to the new plugin/theme
-format, as well as Discord changes, Powercord plugins and themes will have to be rewritten.
+<a href="https://star-history.com/#Vendicated/Vencord&BetterDiscord/BetterDiscord&replugged-org/replugged&recelled/recelled&Timeline">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Vendicated/Vencord,BetterDiscord/BetterDiscord,replugged-org/replugged,recelled/recelled&type=Timeline&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Vendicated/Vencord,BetterDiscord/BetterDiscord,replugged-org/replugged,recelled/recelled&type=Timeline" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Vendicated/Vencord,BetterDiscord/BetterDiscord,replugged-org/replugged,recelled/recelled&type=Timeline" />
+ </picture>
+</a>
 
-### Can I use plugins and themes from legacy Replugged?
-
-As mentioned above, legacy plugins and themes will need to be rewriten due to Discord changes, as
-well as changes to our plugin/theme format.
-
-### Can I use BetterDiscord plugins?
-
-Not right now. Previously, [BDCompat](https://github.com/Juby210/bdCompat) was used to run
-BetterDiscord plugins. However, this has not been rewritten for the Replugged rewrite. Unless
-someone creates a version for the Replugged rewrite, BetterDiscord plugins are not supported.
+<!-- use me senpai>
