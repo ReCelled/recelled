@@ -62,7 +62,7 @@ function patchPush(webpackChunk: WebpackChunkGlobal): void {
     return original.call(webpackChunk, chunk);
   }
 
-  // From YofukashiNo: https://discord.com/channels/1000926524452647132/1000955965304221728/1258946431348375644
+  // From yofukashino: https://discord.com/channels/1000926524452647132/1000955965304221728/1258946431348375644
   handlePush.bind = original.bind.bind(original);
 
   Object.defineProperty(webpackChunk, "push", {
@@ -79,7 +79,7 @@ function patchPush(webpackChunk: WebpackChunkGlobal): void {
  */
 function loadWebpackModules(chunksGlobal: WebpackChunkGlobal): void {
   chunksGlobal.push([
-    [Symbol("replugged")],
+    [Symbol("recelled")],
     {},
     (r: WebpackRequire | undefined) => {
       wpRequire = r!;

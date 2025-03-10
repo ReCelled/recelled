@@ -35,13 +35,13 @@ export const isDiscordInstalled = async (appDir: string, silent?: boolean): Prom
 };
 
 // If app.orig.asar but no app.asar, move app.orig.asar to app.asar
-// Fixes a case where app.asar was deleted (unplugged) but app.orig.asar couldn't be moved back
-// Fixes incase using old version of replugged
+// Fixes a case where app.asar was deleted (uncelled) but app.orig.asar couldn't be moved back
+// Fixes incase using old version of recelled
 export const correctMissingMainAsar = async (appDir: string): Promise<boolean> => {
   try {
     await stat(join(appDir, "..", "app.orig.asar"));
     console.warn(
-      `${AnsiEscapes.YELLOW}Your Discord installation was not properly unplugged, attempting to fix...${AnsiEscapes.RESET}`,
+      `${AnsiEscapes.YELLOW}Your Discord installation was not properly uncelled, attempting to fix...${AnsiEscapes.RESET}`,
     );
     try {
       await stat(join(appDir, "..", "app.asar"));
@@ -54,12 +54,12 @@ export const correctMissingMainAsar = async (appDir: string): Promise<boolean> =
     try {
       await rename(join(appDir, "..", "app.orig.asar"), join(appDir, "..", "app.asar"));
       console.log(
-        `${AnsiEscapes.GREEN}Fixed your Discord installation successfully! Continuing with Replugged installation...${AnsiEscapes.RESET}`,
+        `${AnsiEscapes.GREEN}Fixed your Discord installation successfully! Continuing with ReCelled installation...${AnsiEscapes.RESET}`,
         "\n",
       );
     } catch {
       console.error(
-        `${AnsiEscapes.RED}Failed to fix your Discord installation, please try unplugging and plugging again.${AnsiEscapes.RESET}`,
+        `${AnsiEscapes.RED}Failed to fix your Discord installation, please try uncelling and incelling again.${AnsiEscapes.RESET}`,
         "\n",
       );
       console.error("If the error persists, please reinstall Discord and try again.");
@@ -70,7 +70,7 @@ export const correctMissingMainAsar = async (appDir: string): Promise<boolean> =
   return true;
 };
 
-export const isPlugged = async (appDir: string): Promise<boolean> => {
+export const isCelled = async (appDir: string): Promise<boolean> => {
   try {
     uncache(appDir);
     await statFile(appDir, "app.orig");
@@ -89,32 +89,32 @@ export const inject = async (
   if (!(await correctMissingMainAsar(appDir))) return false;
   if (!(await isDiscordInstalled(appDir))) return false;
 
-  if (await isPlugged(appDir)) {
+  if (await isCelled(appDir)) {
     /*
      * @todo: verify if there is nothing in discord_desktop_core as well
      * @todo: prompt to automatically uninject and continue
      */
     console.error(
-      `${AnsiEscapes.RED}Looks like you already have an injector in place.${AnsiEscapes.RESET} If you already have BetterDiscord or another client mod injected, Replugged cannot run along with it! Please uninstall it before continuing.`,
+      `${AnsiEscapes.RED}Looks like you already have an injector in place.${AnsiEscapes.RESET} If you already have BetterDiscord or another client mod injected, ReCelled cannot run along with it! Please uninstall it before continuing.`,
       "\n",
     );
     console.error(
-      `If you already have Replugged installed and want to replace it, use ${
+      `If you already have ReCelled installed and want to replace it, use ${
         AnsiEscapes.GREEN
-      }${getCommand({ action: "replug", prod, platform })}${
+      }${getCommand({ action: "recell", prod, platform })}${
         AnsiEscapes.RESET
-      } to unplug and plug again.`,
+      } to uncell and incell again.`,
     );
     return false;
   }
 
-  const fileToCheck = join(dirname, "..", "..", prod ? "replugged.asar" : "dist/main.js");
+  const fileToCheck = join(dirname, "..", "..", prod ? "recelled.asar" : "dist/main.js");
   const fileToCheckExists = await stat(fileToCheck)
     .then(() => true)
     .catch(() => false);
   if (!fileToCheckExists) {
     console.error(
-      `${AnsiEscapes.RED}Looks like you haven't built Replugged yet!${AnsiEscapes.RESET}`,
+      `${AnsiEscapes.RED}Looks like you haven't built ReCelled yet!${AnsiEscapes.RESET}`,
     );
     console.error(
       `To build for development, run ${AnsiEscapes.GREEN}pnpm run build${AnsiEscapes.RESET}`,
@@ -127,7 +127,7 @@ export const inject = async (
 
   const entryPoint =
     argEntryPoint ??
-    (prod ? join(CONFIG_PATH, "replugged.asar") : join(dirname, "..", "..", "dist/main.js"));
+    (prod ? join(CONFIG_PATH, "recelled.asar") : join(dirname, "..", "..", "dist/main.js"));
 
   const entryPointDir = path.dirname(entryPoint);
 
@@ -138,7 +138,7 @@ export const inject = async (
     } com.discordapp.${discordName} --filesystem=${prod ? entryPointDir : join(dirname, "..", "..")}`;
 
     console.log(
-      `${AnsiEscapes.YELLOW}Flatpak detected, allowing Discord access to Replugged files (${prod ? entryPointDir : join(dirname, "..", "..")})${AnsiEscapes.RESET}`,
+      `${AnsiEscapes.YELLOW}Flatpak detected, allowing Discord access to ReCelled files (${prod ? entryPointDir : join(dirname, "..", "..")})${AnsiEscapes.RESET}`,
     );
     execSync(overrideCommand);
   }
@@ -154,17 +154,17 @@ export const inject = async (
     }
   } catch {
     console.error(
-      `${AnsiEscapes.RED}Failed to rename app.asar while plugging. If Discord is open, make sure it is closed.${AnsiEscapes.RESET}`,
+      `${AnsiEscapes.RED}Failed to rename app.asar while incelling. If Discord is open, make sure it is closed.${AnsiEscapes.RESET}`,
     );
     process.exit(exitCode);
   }
 
   if (prod) {
-    await copyFile(join(dirname, "..", "..", "replugged.asar"), entryPoint);
+    await copyFile(join(dirname, "..", "..", "recelled.asar"), entryPoint);
     if (["linux", "darwin"].includes(process.platform)) {
       try {
         // Adjust ownership of config folder and asar file to match the parent config folder
-        // We want to make sure all Replugged files are owned by the user
+        // We want to make sure all ReCelled files are owned by the user
         const { uid, gid } = await stat(join(CONFIG_PATH, ".."));
         await chown(entryPoint, uid, gid);
       } catch {}
@@ -204,9 +204,9 @@ export const uninject = async (
   )
     return false;
 
-  if (!(await isPlugged(appDir))) {
+  if (!(await isCelled(appDir))) {
     console.error(
-      `${AnsiEscapes.BOLD}${AnsiEscapes.RED}There is nothing to unplug. You are already running Discord without mods.${AnsiEscapes.RESET}`,
+      `${AnsiEscapes.BOLD}${AnsiEscapes.RED}There is nothing to uncell. You are already running Discord without mods.${AnsiEscapes.RESET}`,
     );
     return false;
   }
@@ -229,7 +229,7 @@ export const uninject = async (
 
 export const smartInject = async (
   cmd: "uninject" | "inject",
-  replug: boolean,
+  recell: boolean,
   platformModule: PlatformModule,
   platform: DiscordPlatform,
   production: boolean,
@@ -243,7 +243,7 @@ export const smartInject = async (
       : PlatformNames[platform].replace(" ", "");
   if (!noRelaunch) {
     try {
-      if ((replug && cmd === "uninject") || !replug) {
+      if ((recell && cmd === "uninject") || !recell) {
         processInfo = getProcessInfoByName(processName)!;
         await Promise.all(processInfo.map((info) => killProcessByPID(info.pid)));
       }
@@ -256,7 +256,7 @@ export const smartInject = async (
       : await inject(platformModule, platform, production);
 
   if (!noRelaunch) {
-    if (((replug && cmd !== "uninject") || !replug) && processInfo) {
+    if (((recell && cmd !== "uninject") || !recell) && processInfo) {
       const appDir = await platformModule.getAppDir(platform);
       switch (process.platform) {
         case "win32":

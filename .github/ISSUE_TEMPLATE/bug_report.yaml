@@ -47,11 +47,11 @@ body:
     attributes:
       label: Please confirm the following
       options:
-        - label: I checked if Discord and Replugged are up to date
+        - label: I checked if Discord and ReCelled are up to date
           required: true
         - label: I made sure this is not related to an external plugin or a theme
           required: true
         - label:
-            "[I searched the issues](https://github.com/replugged-org/replugged/issues) to make sure
-            this bug has not been reported before."
+            "[I searched the issues](https://github.com/ReCelled/recelled/issues) to make sure this
+            bug has not been reported before."
           required: true
