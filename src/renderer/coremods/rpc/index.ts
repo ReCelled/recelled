@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { Injector } from "@recelled";
-import { BETA_WEBSITE_URL, WEBSITE_URL } from "src/constants";
+import { BETA_WEBSITE_URL, LEGACY_WEBSITE_URL, WEBSITE_URL } from "src/constants";
 import { filters, getFunctionKeyBySource, waitForModule } from "src/renderer/modules/webpack";
 import { Jsonifiable } from "type-fest";
 
@@ -49,7 +49,7 @@ async function injectRpc(): Promise<void> {
     const isReCelledClient = clientId.startsWith("RECELLED-") || clientId.startsWith("REPLUGGED-");
 
     // From Replugged site
-    if (origin === WEBSITE_URL || origin === BETA_WEBSITE_URL) {
+    if (origin === WEBSITE_URL || origin === BETA_WEBSITE_URL || origin === LEGACY_WEBSITE_URL) {
       args[0].authorization.scopes = ["REPLUGGED", "RECELLED"];
       return Promise.resolve();
     }
