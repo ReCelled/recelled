@@ -34,6 +34,8 @@ For the long story,
 
 ## Popular Client Mod Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Vendicated/Vencord,BetterDiscord/BetterDiscord,replugged-org/replugged,recelled/recelled&type=Timeline&theme=auto)](https://star-history.com/#Vendicated/Vencord&BetterDiscord/BetterDiscord&replugged-org/replugged&recelled/recelled&Timeline)
+<a href="https://star-history.com/#Vendicated/Vencord&BetterDiscord/BetterDiscord&replugged-org/replugged&recelled/recelled&Timeline">
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Vendicated/Vencord,BetterDiscord/BetterDiscord,replugged-org/replugged,recelled/recelled&type=Timeline" />
+</a>
 
 <!-- use me senpai>
