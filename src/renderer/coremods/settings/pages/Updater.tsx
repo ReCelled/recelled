@@ -17,6 +17,7 @@ import Icons from "../icons";
 import { getAddonType, label } from "./Addons";
 
 import "./Updater.css";
+import { WEBSITE_URL } from "src/constants";
 
 const { intl } = i18n;
 
@@ -147,7 +148,7 @@ export const Updater = (): React.ReactElement => {
         <div style={{ marginBottom: "16px" }}>
           <Notice messageType={Notice.Types.WARNING}>
             {intl.format(t.RECELLED_DEVELOPER_MODE_WARNING, {
-              url: "https://replugged.dev/download",
+              url: `${WEBSITE_URL}/download`,
             })}
           </Notice>
         </div>
