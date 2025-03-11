@@ -23,5 +23,15 @@ export default (navigator.userAgent.includes("Linux") && generalSettings.get("ti
         find: ".winButtons",
         replacements,
       },
+      { find: "this.registerPopoutGlobalKeybinds", replacements },
+      {
+        find: "menubar:!1,toolbar:!1",
+        replacements: [
+          {
+            match: "menubar:",
+            replace: "frame:!1,menubar:",
+          },
+        ],
+      },
     ]
   : []) as PlaintextPatch[];
