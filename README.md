@@ -30,7 +30,7 @@ unexpected results.
 Long story short... **yes**.
 
 For the long story,
-[click here](https://github.com/recelled/recelled/tree/main?tab=readme-ov-file#is-this-against-the-tos)
+[click here](https://github.com/replugged-org/replugged/tree/main?tab=readme-ov-file#is-this-against-the-tos)
 
 ## Popular Client Mod Star History
 
