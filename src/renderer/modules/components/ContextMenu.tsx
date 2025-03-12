@@ -179,7 +179,7 @@ const getMenu = async (): Promise<ContextMenuType> => {
     }, {});
   const Menu = {
     ItemColors,
-    ContextMenu: getFunctionBySource(components, "getContainerProps"),
+    ContextMenu: getFunctionBySource(await components, "menuItemProps:"),
   } as ContextMenuType;
 
   for (const [, identifier, type] of source) {
