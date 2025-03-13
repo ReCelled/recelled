@@ -4,23 +4,29 @@ IPC events:
 - RECELLED_UNINSTALL_PLUGIN: returns whether a plugin by the provided name was successfully uninstalled
 */
 
-import { rm } from "fs/promises";
+import { rm, unlink } from "fs/promises";
 import { extname, join, sep } from "path";
 import { ipcMain, shell } from "electron";
 import { ReCelledIpcChannels, type ReCelledPlugin } from "../../types";
 import { plugin } from "../../types/addon";
 import { type Dirent, type Stats, readFileSync, readdirSync, readlinkSync, statSync } from "fs";
-import { CONFIG_PATHS } from "src/util.mjs";
+import { CONFIG_PATHS, extractAddon } from "src/util.mjs";
 
 const PLUGINS_DIR = CONFIG_PATHS.plugins;
+const TMP_DIR = CONFIG_PATHS.temp_addons;
 
 export const isFileAPlugin = (f: Dirent | Stats, name: string): boolean => {
   return f.isDirectory() || (f.isFile() && extname(name) === ".asar");
 };
 
 function getPlugin(pluginName: string): ReCelledPlugin {
-  const manifestPath = join(PLUGINS_DIR, pluginName, "manifest.json");
-  if (!manifestPath.startsWith(`${PLUGINS_DIR}${sep}`)) {
+  const isAsar = pluginName.includes(".asar");
+  const pluginPath = join(PLUGINS_DIR, pluginName);
+  const realPluginPath = isAsar ? join(TMP_DIR, pluginName.replace(/\.asar$/, "")) : pluginPath; // Remove ".asar" from the directory name
+  if (isAsar) extractAddon(pluginPath, realPluginPath);
+
+  const manifestPath = join(realPluginPath, "manifest.json");
+  if (!manifestPath.startsWith(`${realPluginPath}${sep}`)) {
     // Ensure file changes are restricted to the base path
     throw new Error("Invalid plugin name");
   }
@@ -39,8 +45,7 @@ function getPlugin(pluginName: string): ReCelledPlugin {
 
   const cssPath = data.manifest.renderer?.replace(/\.js$/, ".css");
   try {
-    const hasCSS = cssPath && statSync(join(PLUGINS_DIR, pluginName, cssPath));
-
+    const hasCSS = cssPath && statSync(join(realPluginPath, cssPath));
     if (hasCSS) data.hasCSS = true;
   } catch {
     data.hasCSS = false;
@@ -101,16 +106,19 @@ ipcMain.on(ReCelledIpcChannels.READ_PLUGIN_PLAINTEXT_PATCHES, (event, pluginName
 });
 
 ipcMain.handle(ReCelledIpcChannels.UNINSTALL_PLUGIN, async (_, pluginName: string) => {
+  const isAsar = pluginName.includes(".asar");
   const pluginPath = join(PLUGINS_DIR, pluginName);
-  if (!pluginPath.startsWith(`${PLUGINS_DIR}${sep}`)) {
+  const realPluginPath = isAsar ? join(TMP_DIR, pluginName.replace(".asar", "")) : pluginPath; // Remove ".asar" from the directory name
+
+  if (!realPluginPath.startsWith(`${isAsar ? TMP_DIR : PLUGINS_DIR}${sep}`)) {
     // Ensure file changes are restricted to the base path
     throw new Error("Invalid plugin name");
   }
 
-  await rm(pluginPath, {
-    recursive: true,
-    force: true,
-  });
+  if (isAsar) {
+    await unlink(pluginPath);
+    await rm(realPluginPath, { recursive: true });
+  } else await rm(pluginPath, { recursive: true });
 });
 
 ipcMain.on(ReCelledIpcChannels.OPEN_PLUGINS_FOLDER, () => shell.openPath(PLUGINS_DIR));
