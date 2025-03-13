@@ -1,6 +1,5 @@
 import type { Promisable } from "type-fest";
 import { patchPlaintext } from "../modules/webpack/plaintext-patch";
-
 import experimentsPlaintext from "../coremods/experiments/plaintextPatches";
 import notrackPlaintext from "../coremods/notrack/plaintextPatches";
 import noDevtoolsWarningPlaintext from "../coremods/noDevtoolsWarning/plaintextPatches";
