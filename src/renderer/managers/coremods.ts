@@ -1,6 +1,5 @@
 import type { Promisable } from "type-fest";
 import { patchPlaintext } from "../modules/webpack/plaintext-patch";
-
 import experimentsPlaintext from "../coremods/experiments/plaintextPatches";
 import notrackPlaintext from "../coremods/notrack/plaintextPatches";
 import noDevtoolsWarningPlaintext from "../coremods/noDevtoolsWarning/plaintextPatches";
@@ -11,6 +10,8 @@ import languagePlaintext from "../coremods/language/plaintextPatches";
 import settingsPlaintext from "../coremods/settings/plaintextPatches";
 import badgesPlaintext from "../coremods/badges/plaintextPatches";
 import popoutThemingPlaintext from "../coremods/popoutTheming/plaintextPatches";
+import titlebarPlaintext from "../coremods/titlebar/plaintextPatches";
+
 import { Logger } from "../modules/logger";
 
 const logger = Logger.api("Coremods");
@@ -90,6 +91,7 @@ export function runPlaintextPatches(): void {
     languagePlaintext,
     settingsPlaintext,
     badgesPlaintext,
+    titlebarPlaintext,
     popoutThemingPlaintext,
   ].forEach(patchPlaintext);
 }

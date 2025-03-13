@@ -39,6 +39,13 @@ class BrowserWindow extends electron.BrowserWindow {
       };
     },
   ) {
+    if (
+      opts.frame &&
+      process.platform.includes("linux") &&
+      getSetting<boolean>("dev.recelled.Settings", "titlebar", false)
+    )
+      opts.frame = void 0;
+
     const originalPreload = opts.webPreferences?.preload;
 
     if (opts.webContents) {

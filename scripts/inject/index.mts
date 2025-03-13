@@ -122,7 +122,7 @@ const run = async (cmd = ctx.getPositionalArg(2), recell = false): Promise<void>
         }
 To incell into a different platform, use the following syntax: ${AnsiEscapes.BOLD}${
           AnsiEscapes.GREEN
-        }${getCommand({ action: recell ? "recell" : "incel", prod })}${AnsiEscapes.RESET}`,
+        }${getCommand({ action: recell ? "recell" : "incell", prod })}${AnsiEscapes.RESET}`,
       );
     } else {
       process.exit(exitCode);
