@@ -120,8 +120,8 @@ export const General = (): React.ReactElement => {
             titleBarOnChange(value);
             restartModal(true);
           }}
-          note={intl.format(t.RECELLED_SETTINGS_CUSTOM_TITLE_BAR_DESC, {})}>
-          {intl.string(t.RECELLED_SETTINGS_CUSTOM_TITLE_BAR)}
+          note={i18n.intl.format(t.RECELLED_SETTINGS_CUSTOM_TITLE_BAR_DESC, {})}>
+          {i18n.intl.string(t.RECELLED_SETTINGS_CUSTOM_TITLE_BAR)}
         </SwitchItem>
       )}
 
