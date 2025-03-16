@@ -17,7 +17,7 @@ type RPCData = {
   cmd: string;
 };
 
-type RPCCommand = {
+export type RPCCommand = {
   scope?:
     | string
     | {
