@@ -177,6 +177,13 @@ electron.app.once("ready", () => {
 
   electron.protocol.registerFileProtocol("recelled", (request, cb) => {
     let filePath = "";
+
+    const getAddonPath = (pathname: string, mainPath: string): string =>
+      join(
+        pathname.includes(".asar") ? CONFIG_PATHS.temp_addons : mainPath,
+        pathname.replace(".asar", ""),
+      );
+
     const reqUrl = new URL(request.url);
     switch (reqUrl.hostname) {
       case "renderer":
@@ -189,10 +196,10 @@ electron.app.once("ready", () => {
         filePath = join(CONFIG_PATHS.quickcss, reqUrl.pathname);
         break;
       case "theme":
-        filePath = join(CONFIG_PATHS.themes, reqUrl.pathname);
+        filePath = getAddonPath(reqUrl.pathname, CONFIG_PATHS.themes);
         break;
       case "plugin":
-        filePath = join(CONFIG_PATHS.plugins, reqUrl.pathname);
+        filePath = getAddonPath(reqUrl.pathname, CONFIG_PATHS.plugins);
         break;
     }
     cb({ path: filePath });
