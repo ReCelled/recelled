@@ -99,10 +99,9 @@ const { uid: REAL_UID, gid: REAL_GID } = statSync(join(CONFIG_PATH, ".."));
 const shouldChown = process.platform === "linux";
 if (shouldChown) {
   chownSync(CONFIG_PATH, REAL_UID, REAL_GID);
-  CONFIG_FOLDER_NAMES.forEach(
-    (folder) =>
-      folder !== "temp_addons" && chownSync(join(CONFIG_PATH, folder), REAL_UID, REAL_GID),
-  );
+  for (const folder of CONFIG_FOLDER_NAMES) {
+    if (folder !== "temp_addons") chownSync(join(CONFIG_PATH, folder), REAL_UID, REAL_GID);
+  }
 }
 const QUICK_CSS_FILE = join(CONFIG_PATHS.quickcss, "main.css");
 if (!existsSync(QUICK_CSS_FILE)) {
