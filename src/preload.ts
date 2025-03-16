@@ -123,6 +123,7 @@ void webFrame.executeJavaScript(renderer);
 try {
   window.addEventListener("beforeunload", () => {
     ipcRenderer.send(ReCelledIpcChannels.REGISTER_RELOAD);
+    ipcRenderer.send(ReCelledIpcChannels.CLEAR_TEMP);
   });
   // Get and execute Discord preload
   // If Discord ever sandboxes its preload, we'll have to eval the preload contents directly

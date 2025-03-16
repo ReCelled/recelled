@@ -1,5 +1,4 @@
 import { dirname, join } from "path";
-import { statSync } from "fs";
 import electron from "electron";
 import { CONFIG_PATHS } from "src/util.mjs";
 import type { ReCelledWebContents } from "../types";
@@ -8,18 +7,12 @@ import { getSetting } from "./ipc/settings";
 const electronPath = require.resolve("electron");
 
 // This is for backwards compatibility, to be removed later.
-let discordPath = join(dirname(require.main!.filename), "..", "app.orig.asar");
-try {
-  // If using older recelled file system
-  statSync(discordPath);
-  const discordPackage = require(join(discordPath, "package.json"));
-  require.main!.filename = join(discordPath, discordPackage.main);
-} catch {
-  // If using newer recelled file system
-  discordPath = join(dirname(require.main!.filename), "app.orig");
-  const discordPackage = require(join(discordPath, "package.json"));
-  require.main!.filename = join(discordPath, "..", discordPackage.main);
-}
+let discordPath = join(
+  dirname(require.main!.filename),
+  ...(process.platform === "linux" ? ["app.orig"] : ["..", "app.orig.asar"]),
+);
+
+require.main!.filename = require(join(dirname(require.main!.filename), "package.json")).discordMain;
 
 Object.defineProperty(global, "appSettings", {
   set: (v /* : typeof global.appSettings*/) => {
@@ -46,6 +39,13 @@ class BrowserWindow extends electron.BrowserWindow {
       };
     },
   ) {
+    if (
+      opts.frame &&
+      process.platform.includes("linux") &&
+      getSetting<boolean>("dev.recelled.Settings", "titlebar", false)
+    )
+      opts.frame = void 0;
+
     const originalPreload = opts.webPreferences?.preload;
 
     if (opts.webContents) {
@@ -177,6 +177,13 @@ electron.app.once("ready", () => {
 
   electron.protocol.registerFileProtocol("recelled", (request, cb) => {
     let filePath = "";
+
+    const getAddonPath = (pathname: string, mainPath: string): string =>
+      join(
+        pathname.includes(".asar") ? CONFIG_PATHS.temp_addons : mainPath,
+        pathname.replace(".asar", ""),
+      );
+
     const reqUrl = new URL(request.url);
     switch (reqUrl.hostname) {
       case "renderer":
@@ -189,10 +196,10 @@ electron.app.once("ready", () => {
         filePath = join(CONFIG_PATHS.quickcss, reqUrl.pathname);
         break;
       case "theme":
-        filePath = join(CONFIG_PATHS.themes, reqUrl.pathname);
+        filePath = getAddonPath(reqUrl.pathname, CONFIG_PATHS.themes);
         break;
       case "plugin":
-        filePath = join(CONFIG_PATHS.plugins, reqUrl.pathname);
+        filePath = getAddonPath(reqUrl.pathname, CONFIG_PATHS.plugins);
         break;
     }
     cb({ path: filePath });
