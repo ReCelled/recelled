@@ -12,9 +12,9 @@ import { readFile } from "fs/promises";
 import { writeFile as originalWriteFile } from "original-fs";
 import { join, resolve, sep } from "path";
 import { AnyAddonManifestOrReCelled, anyAddonOrReCelled } from "src/types/addon";
-// import { getSetting } from "./settings";
+import { getSetting } from "./settings";
 import { promisify } from "util";
-import { LEGACY_WEBSITE_URL /* WEBSITE_URL  */ } from "src/constants";
+import { WEBSITE_URL } from "src/constants";
 
 const writeFile = promisify(originalWriteFile);
 
@@ -105,9 +105,8 @@ async function github(
 }
 
 async function store(id: string): Promise<CheckResultSuccess | CheckResultFailure> {
-  // const apiUrl = getSetting("dev.recelled.Settings", "apiUrl", WEBSITE_URL);
-  // revert when api in place, redirect to get from replugged maybe
-  const STORE_BASE_URL = `${LEGACY_WEBSITE_URL}/api/v1/store`;
+  const apiUrl = getSetting("dev.recelled.Settings", "apiUrl", WEBSITE_URL);
+  const STORE_BASE_URL = `${apiUrl}/api/v1/store`;
   const manifestUrl = `${STORE_BASE_URL}/${id}`;
   const asarUrl = `${manifestUrl}.asar`;
 

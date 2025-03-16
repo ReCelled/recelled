@@ -2,18 +2,17 @@ import AdmZip from "adm-zip";
 import { ipcMain } from "electron";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
-import { LEGACY_WEBSITE_URL /* WEBSITE_URL */ } from "src/constants";
+import { WEBSITE_URL } from "src/constants";
 import { CONFIG_PATHS } from "src/util.mjs";
 import { ReCelledIpcChannels } from "../../types";
-// import { getSetting } from "./settings";
+import { getSetting } from "./settings";
 
 const OUTPUT_PATH = join(CONFIG_PATHS["react-devtools"]);
 const ZIP_PATH = join(OUTPUT_PATH, "extension.zip");
 
 ipcMain.handle(ReCelledIpcChannels.DOWNLOAD_REACT_DEVTOOLS, async () => {
-  // const apiUrl = getSetting("dev.recelled.Settings", "apiUrl", WEBSITE_URL);
-  // until we upload it there.
-  const REACT_DEVTOOLS_URL = `${LEGACY_WEBSITE_URL}/api/v1/react-devtools`;
+  const apiUrl = getSetting("dev.recelled.Settings", "apiUrl", WEBSITE_URL);
+  const REACT_DEVTOOLS_URL = `${apiUrl}/api/v1/react-devtools`;
 
   let buffer;
 
