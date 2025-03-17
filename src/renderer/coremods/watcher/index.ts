@@ -2,7 +2,7 @@ import { i18n } from "@common";
 import toast from "@common/toast";
 import { Logger, plugins, themes } from "@recelled";
 import { t } from "src/renderer/modules/i18n";
-import { registerRPCCommand } from "../rpc";
+import { type RPCCommand, registerRPCCommand } from "../rpc";
 
 const logger = Logger.coremod("Watcher");
 
@@ -11,8 +11,8 @@ const uninjectors: Array<() => void> = [];
 const { intl } = i18n;
 
 export function start(): void {
-  let uninjectRpc = registerRPCCommand("REPLUGGED_ADDON_WATCHER", {
-    scope: "REPLUGGED_LOCAL",
+  const command: RPCCommand = {
+    scope: "RECELLED_LOCAL",
     handler: async (data) => {
       const { id } = data.args;
 
@@ -67,9 +67,12 @@ export function start(): void {
         };
       }
     },
-  });
+  };
 
-  uninjectors.push(uninjectRpc);
+  uninjectors.push(
+    registerRPCCommand("REPLUGGED_ADDON_WATCHER", command),
+    registerRPCCommand("RECELLED_ADDON_WATCHER", command),
+  );
 }
 
 export function stop(): void {
