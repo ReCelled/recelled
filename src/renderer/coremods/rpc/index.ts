@@ -100,7 +100,7 @@ export function registerRPCCommand(name: string, command: RPCCommand): () => voi
  * @param name Command name
  */
 export function unregisterRPCCommand(name: string): void {
-  if (!name.startsWith("RECELLED") || name.startsWith("REPLUGGED"))
+  if (!name.startsWith("RECELLED") && !name.startsWith("REPLUGGED"))
     throw new Error("RPC command name must start with RECELLED");
   // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
   delete commands[name];
