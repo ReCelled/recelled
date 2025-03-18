@@ -6,13 +6,14 @@ import { getSetting } from "./ipc/settings";
 
 const electronPath = require.resolve("electron");
 
-// This is for backwards compatibility, to be removed later.
-let discordPath = join(
+const discordPath = join(
   dirname(require.main!.filename),
   ...(process.platform === "linux" ? ["app.orig"] : ["..", "app.orig.asar"]),
 );
 
-require.main!.filename = require(join(dirname(require.main!.filename), "package.json")).discordMain;
+const discordPackage = require(join(discordPath, "package.json"));
+
+require.main!.filename = join(discordPath, "..", discordPackage.main);
 
 Object.defineProperty(global, "appSettings", {
   set: (v /* : typeof global.appSettings*/) => {
@@ -103,7 +104,8 @@ require.cache[electronPath]!.exports = electronExports;
     setAppPath: (path: string) => void;
   }
 ).setAppPath(discordPath);
-// electron.app.name = discordPackage.name;
+
+electron.app.name = discordPackage.name;
 
 electron.protocol.registerSchemesAsPrivileged([
   {

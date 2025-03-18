@@ -187,9 +187,6 @@ export const inject = async (
   }
   const tempDir = join(appDir, "..", "temp");
   await mkdir(tempDir);
-  const { main: discordMain } = JSON.parse(
-    extractFile(join(appDir, "..", "app.orig.asar"), "package.json").toString("utf-8"),
-  );
   await Promise.all([
     writeFile(
       join(tempDir, "index.js"),
@@ -198,7 +195,6 @@ export const inject = async (
     writeFile(
       join(appDir, "..", "temp", "package.json"),
       JSON.stringify({
-        discordMain,
         main: "index.js",
         name: "discord",
       }),
