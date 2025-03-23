@@ -1,4 +1,4 @@
-# Contributing to Recelled
+# Installing Recelled
 
 Thank you for your interest in using **Recelled**, a fork of **Replugged**!
 
