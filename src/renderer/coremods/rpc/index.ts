@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { Injector } from "@recelled";
-import { BETA_WEBSITE_URL, WEBSITE_URL } from "src/constants";
+import { BETA_WEBSITE_URL, LEGACY_WEBSITE_URL, WEBSITE_URL } from "src/constants";
 import { filters, getFunctionKeyBySource, waitForModule } from "src/renderer/modules/webpack";
 import { Jsonifiable } from "type-fest";
 
@@ -17,7 +17,7 @@ type RPCData = {
   cmd: string;
 };
 
-type RPCCommand = {
+export type RPCCommand = {
   scope?:
     | string
     | {
@@ -49,7 +49,7 @@ async function injectRpc(): Promise<void> {
     const isReCelledClient = clientId.startsWith("RECELLED-") || clientId.startsWith("REPLUGGED-");
 
     // From Replugged site
-    if (origin === WEBSITE_URL || origin === BETA_WEBSITE_URL) {
+    if (origin === WEBSITE_URL || origin === BETA_WEBSITE_URL || origin === LEGACY_WEBSITE_URL) {
       args[0].authorization.scopes = ["REPLUGGED", "RECELLED"];
       return Promise.resolve();
     }
@@ -100,7 +100,7 @@ export function registerRPCCommand(name: string, command: RPCCommand): () => voi
  * @param name Command name
  */
 export function unregisterRPCCommand(name: string): void {
-  if (!name.startsWith("RECELLED") || name.startsWith("REPLUGGED"))
+  if (!name.startsWith("RECELLED") && !name.startsWith("REPLUGGED"))
     throw new Error("RPC command name must start with RECELLED");
   // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
   delete commands[name];
